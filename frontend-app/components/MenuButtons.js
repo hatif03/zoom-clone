@@ -29,12 +29,12 @@ const items = [
 ]
 
 
-const MenuButtons = () => {
+const MenuButtons = ({navigation}) => {
   return (
     <View style={styles.container}>
         {items.map((item, index) =>
             <View style={styles.buttonContainer} key={index}>
-                <TouchableOpacity style={{...styles.button, backgroundColor: item.customColor? item.customColor: "#0470DC"}}>
+                <TouchableOpacity style={{...styles.button, backgroundColor: item.customColor? item.customColor: "#0470DC"}} onPress={() => navigation.navigate("Room")}>
                     <FontAwesome name={item.name} size={23} color="#efefef" />
                 </TouchableOpacity>
                 <Text style={styles.menuText}>{item.title}</Text>

@@ -6,13 +6,13 @@ import MenuButtons from '../components/MenuButtons'
 import ContactsMenu from '../components/ContactsMenu'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
         <SafeAreaView style={{height: "100%"}}>
             <Header/>
             <SearchBar/>
-            <MenuButtons/>
+            <MenuButtons navigation={navigation}/>
             <ContactsMenu/>
         </SafeAreaView>
     </View>

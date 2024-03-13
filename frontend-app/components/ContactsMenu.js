@@ -25,7 +25,7 @@ const ContactsMenu = () => {
   return (
     <View style={styles.container}>
       {contactMenuButtons.map((contact, index) =>
-            <View style={styles.row}>
+            <View style={styles.row} key={index}>
                 {contact.type === "starred" ? (
                     <View style={styles.starredIcon}>
                         <AntDesign name="star" size={30} color="#efefef" />
