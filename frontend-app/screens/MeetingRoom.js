@@ -1,38 +1,42 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import StartMeeting from '../components/StartMeeting'
+import {io} from 'socket.io-client'
+
+let socket
 
 const MeetingRoom = () => {
 
   const [name, setName] = useState()
   const [roomId, setRoomId] = useState()
+  const [activeUsers, setActiveUSers] = useState()
+
+  const joinRoom = () => {
+    socket.emit('join-room', {roomId:roomId, userName:name})
+  }
+
+  useEffect(() => {
+    const url = "http://192.168.1.5:3001"
+    socket = io(url)
+    console.log("Connecting to socket")
+    socket.on('connection', () => {
+      console.log("Connected to socket")
+    })
+    // socket.on('all-users', (users) => {
+    //   console.log(users)
+    //   setActiveUSers(users)
+    // })
+  })
 
   return (
     <View style={styles.container}>
-      <View style={styles.meetingContainer}>
-        <View style={styles.info}>
-          <TextInput
-            style={styles.textInput}
-            value={name}
-            onChange={text => setName(text)}
-            placeholder='Enter name'
-            placeholderTextColor={"#767476"}
-          />
-        </View>
-        <View style={styles.info}>
-          <TextInput
-            style={styles.textInput}
-            value={roomId}
-            onChange={text => setRoomId(text)}
-            placeholder='Enter room id'
-            placeholderTextColor={"#767476"}
-          />
-        </View>
-        <View style={{alignItems: "center"}}>
-          <TouchableOpacity style={styles.startMeetingButton} onPress={() => {}}>
-            <Text style={{color: "white", fontWeight: "bold"}}>Start Meeting</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <StartMeeting
+        name={name}
+        setName={setName}
+        roomId={roomId}
+        setRoomId={setRoomId}
+        joinRoom={joinRoom}
+      />
     </View>
   )
 }
@@ -44,28 +48,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1c1c1c",
     flex: 1,
-  },
-  info: {
-    width: "100%",
-    backgroundColor: "#373538",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#484648",
-    padding: 12,
-    justifyContent: "center"
-  },
-  textInput: {
-    color: "#efefef",
-    fontSize: 18
-  },
-  startMeetingButton: {
-    width: "80%",
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    backgroundColor: "#0470dc",
-    borderRadius: 15,
   },
   }
 )
